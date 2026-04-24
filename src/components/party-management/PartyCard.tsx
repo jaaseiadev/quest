@@ -40,7 +40,7 @@ export function PartyCard({
     >
       <CardHeader className="mb-5">
         <div className="flex flex-wrap items-start justify-between gap-4">
-          <div className="space-y-3">
+          <div className="min-w-0 space-y-3">
             <Badge variant={locked ? "default" : "quest"}>
               {party.category || "General"}
             </Badge>
@@ -53,7 +53,7 @@ export function PartyCard({
       </CardHeader>
 
       <CardContent>
-        <p className="min-h-12 text-sm leading-6 text-muted-foreground">
+        <p className="min-h-12 break-words text-sm leading-6 text-muted-foreground">
           {party.description ||
             "No party brief has been filed yet. Members can still assemble here for future quests."}
         </p>
@@ -107,9 +107,9 @@ export function PartyCard({
 
 function PartyMetric({ label, value }: { label: string; value: string }) {
   return (
-    <div>
+    <div className="min-w-0">
       <p className="text-label-caps text-muted-foreground">{label}</p>
-      <p className="mt-2 text-sm font-semibold text-foreground">{value}</p>
+      <p className="mt-2 break-words text-sm font-semibold text-foreground">{value}</p>
     </div>
   );
 }

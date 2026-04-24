@@ -50,14 +50,14 @@ export function AdminShell({ children, displayName }: AdminShellProps) {
     <div className="min-h-screen bg-background text-foreground">
       <div className="border-b border-border bg-surface-dim">
         <div className="container-apex flex min-h-20 flex-col justify-center gap-4 py-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex min-w-0 items-center gap-3">
             <div className="border border-primary bg-primary/10 p-2 text-primary-soft">
               <Shield className="h-5 w-5" aria-hidden="true" />
             </div>
-            <div>
+            <div className="min-w-0">
               <Link
                 href="/admin"
-                className="font-display text-lg font-bold uppercase text-foreground transition-colors hover:text-primary"
+                className="font-display text-base font-bold uppercase text-foreground transition-colors hover:text-primary sm:text-lg"
               >
                 Admin Command
               </Link>
@@ -87,7 +87,10 @@ export function AdminShell({ children, displayName }: AdminShellProps) {
 
       <div className="container-apex grid gap-8 py-8 lg:grid-cols-[240px_minmax(0,1fr)]">
         <aside className="border border-border bg-card p-3 lg:sticky lg:top-8 lg:h-fit">
-          <nav aria-label="Admin navigation" className="grid gap-2">
+          <nav
+            aria-label="Admin navigation"
+            className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-1"
+          >
             {ADMIN_NAV.map((item) => {
               const active =
                 pathname === item.href ||
@@ -99,7 +102,7 @@ export function AdminShell({ children, displayName }: AdminShellProps) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-3 border border-transparent px-3 py-3 font-display text-xs font-bold uppercase text-muted-foreground transition-colors",
+                    "flex min-w-0 items-center gap-3 border border-transparent px-3 py-3 font-display text-xs font-bold uppercase text-muted-foreground transition-colors",
                     "hover:border-border hover:bg-surface-container hover:text-foreground",
                     active &&
                       "border-primary bg-primary/10 text-primary-soft hover:border-primary hover:text-primary-soft",

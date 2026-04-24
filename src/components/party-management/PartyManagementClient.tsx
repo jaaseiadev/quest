@@ -188,7 +188,7 @@ export function PartyManagementClient({
         title="Build Your Squad"
         description="Create a tactical roster, inspect rank requirements, and join parties cleared for your current rank."
         actions={
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-stretch">
             <NetworkStats
               parties={parties.length}
               joined={joinedPartyIds.size}
@@ -274,7 +274,7 @@ function NetworkStats({
   locked: number;
 }) {
   return (
-    <div className="grid min-w-60 grid-cols-3 border border-border bg-surface-container">
+    <div className="grid w-full grid-cols-3 border border-border bg-surface-container sm:w-auto sm:min-w-60">
       <Stat label="Parties" value={parties.toString()} />
       <Stat label="Joined" value={joined.toString()} />
       <Stat label="Locked" value={locked.toString()} />

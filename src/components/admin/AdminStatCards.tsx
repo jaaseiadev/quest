@@ -49,7 +49,7 @@ export function AdminStatCards({
               <p className="text-label-caps text-muted-foreground">{stat.label}</p>
               <Icon className="h-4 w-4 text-primary" aria-hidden="true" />
             </div>
-            <p className="mt-4 font-display text-4xl font-semibold text-secondary">
+            <p className="mt-4 break-words font-display text-3xl font-semibold text-secondary md:text-4xl">
               {stat.value.toLocaleString()}
             </p>
           </Card>

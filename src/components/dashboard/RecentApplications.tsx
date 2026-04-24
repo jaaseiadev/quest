@@ -18,7 +18,7 @@ export function RecentApplications({ applications }: RecentApplicationsProps) {
   }
 
   return (
-    <div className="overflow-hidden border border-border">
+    <div className="overflow-hidden border border-border bg-card">
       <div className="hidden grid-cols-[1.5fr_0.8fr_0.8fr_0.6fr] border-b border-border bg-surface-container-low px-4 py-3 text-label-caps text-muted-foreground md:grid">
         <span>Quest</span>
         <span>Status</span>
@@ -29,19 +29,21 @@ export function RecentApplications({ applications }: RecentApplicationsProps) {
         {applications.map((application) => (
           <div
             key={application.id}
-            className="grid gap-4 bg-card p-4 md:grid-cols-[1.5fr_0.8fr_0.8fr_0.6fr] md:items-center"
+            className="grid gap-4 bg-card p-4 transition-colors duration-100 hover:bg-surface-container-low md:grid-cols-[1.5fr_0.8fr_0.8fr_0.6fr] md:items-center"
           >
-            <div>
-              <p className="font-display font-semibold text-foreground">
+            <div className="min-w-0">
+              <p className="break-words font-display font-semibold text-foreground">
                 {application.title}
               </p>
               <p className="mt-1 text-label-caps text-muted-foreground md:hidden">
                 Applied {formatDate(application.appliedAt)}
               </p>
             </div>
-            <StatusChip status={application.status}>
-              {APPLICATION_STATUS_META[application.status].label}
-            </StatusChip>
+            <div>
+              <StatusChip status={application.status}>
+                {APPLICATION_STATUS_META[application.status].label}
+              </StatusChip>
+            </div>
             <span className="hidden text-sm text-muted-foreground md:block">
               {formatDate(application.appliedAt)}
             </span>

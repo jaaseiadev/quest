@@ -181,7 +181,7 @@ export function QuestBoardClient({
         title="Available Operations"
         description="Browse open opportunities, inspect the mission brief, and submit a single application for each quest."
         actions={
-          <div className="grid min-w-48 grid-cols-2 border border-border bg-surface-container">
+          <div className="grid w-full grid-cols-2 border border-border bg-surface-container sm:w-auto sm:min-w-48">
             <BoardStat label="Open" value={jobs.length.toString()} />
             <BoardStat label="Applied" value={applications.size.toString()} />
           </div>

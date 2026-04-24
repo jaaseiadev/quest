@@ -125,9 +125,9 @@ export function JobForm({
 
       <dialog
         ref={dialogRef}
-        className="w-[min(94vw,860px)] border border-border bg-surface-dim p-0 text-foreground backdrop:bg-background/80"
+        className="max-h-[92dvh] w-[min(94vw,860px)] overflow-y-auto border border-border bg-surface-dim p-0 text-foreground backdrop:bg-background/80"
       >
-        <form className="space-y-6 p-6" onSubmit={handleSubmit}>
+        <form className="space-y-6 p-5 md:p-6" onSubmit={handleSubmit}>
           <div className="flex items-start justify-between gap-4 border-b border-border pb-5">
             <div>
               <p className="text-label-caps text-primary">Job Control</p>
@@ -160,7 +160,7 @@ export function JobForm({
                 value={form.description}
                 rows={5}
                 placeholder="Build UI components for internal dashboard."
-                className="w-full border border-border bg-input px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                className="w-full min-w-0 border border-border bg-input px-4 py-3 text-foreground placeholder:text-muted-foreground transition-colors duration-100 focus:border-primary focus:outline-none"
                 onChange={(event) =>
                   setFormField("description", event.target.value, setForm)
                 }
@@ -234,7 +234,7 @@ export function JobForm({
                 <select
                   id="job-status"
                   value={form.status}
-                  className="h-12 w-full border border-border bg-input px-4 text-foreground focus:border-primary focus:outline-none"
+                  className="h-12 w-full min-w-0 border border-border bg-input px-4 text-foreground transition-colors duration-100 focus:border-primary focus:outline-none"
                   onChange={(event) =>
                     setFormField("status", event.target.value as FormState["status"], setForm)
                   }
@@ -247,7 +247,7 @@ export function JobForm({
                 <select
                   id="job-rank"
                   value={form.recommendedRankId}
-                  className="h-12 w-full border border-border bg-input px-4 text-foreground focus:border-primary focus:outline-none"
+                  className="h-12 w-full min-w-0 border border-border bg-input px-4 text-foreground transition-colors duration-100 focus:border-primary focus:outline-none"
                   onChange={(event) =>
                     setFormField("recommendedRankId", event.target.value, setForm)
                   }

@@ -21,12 +21,12 @@ export function Topbar({
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-surface-dim/95">
+    <header className="sticky top-0 z-40 border-b border-border bg-surface-dim">
       <div className="container-apex flex min-h-20 flex-col justify-center gap-4 py-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex items-center justify-between gap-4">
           <Link
             href="/dashboard"
-            className="font-display text-lg font-bold uppercase text-foreground transition-colors hover:text-primary"
+            className="font-display text-base font-bold uppercase text-foreground transition-colors hover:text-primary sm:text-lg"
           >
             Guild System
           </Link>
@@ -36,7 +36,10 @@ export function Topbar({
           </div>
         </div>
 
-        <nav aria-label="Student navigation" className="flex flex-wrap gap-2">
+        <nav
+          aria-label="Student navigation"
+          className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap"
+        >
           {STUDENT_NAV_ITEMS.map((item) => {
             const active =
               pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -46,7 +49,7 @@ export function Topbar({
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "border border-transparent px-3 py-2 font-display text-xs font-bold uppercase text-muted-foreground transition-colors duration-100 hover:border-border hover:text-foreground",
+                  "border border-transparent px-3 py-2 text-center font-display text-xs font-bold uppercase text-muted-foreground transition-colors duration-100 hover:border-border hover:text-foreground",
                   active &&
                     "border-primary bg-primary/10 text-primary-soft hover:border-primary hover:text-primary-soft",
                 )}

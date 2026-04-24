@@ -42,11 +42,11 @@ export function QuestFilters({
   return (
     <section className="border border-border bg-surface-container-low p-4 md:p-6">
       <div className="mb-4 flex flex-col gap-3 border-b border-border pb-4 md:flex-row md:items-center md:justify-between">
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 items-center gap-3">
           <SlidersHorizontal className="h-5 w-5 text-primary" aria-hidden="true" />
-          <div>
+          <div className="min-w-0">
             <p className="text-label-caps text-primary">Filter Bar</p>
-            <h2 className="font-display text-lg font-semibold text-foreground">
+            <h2 className="break-words font-display text-lg font-semibold text-foreground">
               Sort Available Operations
             </h2>
           </div>
@@ -130,7 +130,7 @@ function FilterSelect({
         id={id}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="h-12 w-full border border-border bg-input px-4 text-foreground focus:border-primary focus:outline-none focus:ring-0"
+          className="h-12 w-full min-w-0 border border-border bg-input px-4 text-foreground transition-colors duration-100 focus:border-primary focus:outline-none focus:ring-0"
       >
         <option value="">{placeholder}</option>
         {options.map((option) => (

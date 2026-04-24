@@ -25,15 +25,15 @@ export function AuthTerminal({
         className,
       )}
     >
-      <div className="border-b border-border bg-surface-container-low px-6 py-4">
+      <div className="border-b border-border bg-surface-container-low px-5 py-4 md:px-6">
         <div className="flex items-center justify-between gap-4">
           <span className="text-label-caps text-primary-soft">{eyebrow}</span>
           <ShieldCheck className="h-4 w-4 text-secondary" aria-hidden="true" />
         </div>
       </div>
-      <div className="space-y-6 p-6">
+      <div className="space-y-6 p-5 md:p-6">
         <div className="space-y-3">
-          <h1 className="font-display text-2xl font-bold uppercase text-foreground">
+          <h1 className="break-words font-display text-2xl font-bold uppercase leading-tight text-foreground">
             {title}
           </h1>
           <p className="text-sm leading-6 text-muted-foreground">{description}</p>

@@ -68,14 +68,14 @@ function TopRankerCard({ entry }: { entry: LeaderboardViewEntry }) {
           </Badge>
         </div>
 
-        <div className="space-y-5">
-          <div>
+        <div className="min-w-0 space-y-5">
+          <div className="min-w-0">
             <p className="text-label-caps text-muted-foreground">
               Rank #{entry.rank_number}
             </p>
             <h3
               className={cn(
-                "mt-3 font-display font-semibold text-foreground",
+                "mt-3 break-words font-display font-semibold leading-tight text-foreground",
                 isFirst ? "text-3xl" : "text-2xl",
               )}
             >
@@ -144,7 +144,7 @@ function Metric({
   prestige?: boolean;
 }) {
   return (
-    <div>
+    <div className="min-w-0">
       <p className="text-label-caps text-muted-foreground">{label}</p>
       <p
         className={cn(
