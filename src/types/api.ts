@@ -1,7 +1,9 @@
 import type {
   ApplicationStatus,
+  Job,
   JobStatus,
   Party,
+  PartyMember,
   Profile,
   Rank,
 } from "@/types/db";
@@ -48,7 +50,7 @@ export type JobListItem = {
   status: JobStatus;
   deadline: string | null;
   created_at: string;
-  recommended_rank: Rank | null;
+  recommended_rank: Pick<Rank, "id" | "name" | "min_xp" | "max_xp"> | null;
 };
 
 export type ApplyResponse = {
@@ -73,4 +75,20 @@ export type AdminApplicationListItem = {
   xp_awarded: boolean;
   job: Pick<JobListItem, "id" | "title" | "reward_xp" | "slots">;
   applicant: Pick<Profile, "id" | "display_name" | "avatar_url" | "email">;
+};
+
+export type PartyListMember = Pick<PartyMember, "id" | "role" | "joined_at"> & {
+  user: Pick<Profile, "id" | "display_name" | "avatar_url"> | null;
+};
+
+export type PartyListItem = Party & {
+  min_rank: Pick<Rank, "id" | "name" | "min_xp"> | null;
+  leader: Pick<Profile, "id" | "display_name" | "avatar_url"> | null;
+  member_count: number;
+  members?: PartyListMember[];
+};
+
+export type AdminJobListItem = Job & {
+  recommended_rank: Pick<Rank, "id" | "name" | "min_xp" | "max_xp"> | null;
+  creator: Pick<Profile, "id" | "display_name" | "email"> | null;
 };

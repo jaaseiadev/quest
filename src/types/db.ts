@@ -112,6 +112,10 @@ export type Database = {
       parties: TableDefinition<Party, PartyInsert, PartyUpdate>;
       party_members: TableDefinition<PartyMember, PartyMemberInsert>;
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
+    Enums: Record<string, never>;
+    CompositeTypes: Record<string, never>;
   };
 };
 
@@ -119,6 +123,7 @@ type TableDefinition<Row, Insert = Partial<Row>, Update = Partial<Insert>> = {
   Row: Row;
   Insert: Insert;
   Update: Update;
+  Relationships: [];
 };
 
 export type ProfileInsert = Omit<Profile, "created_at" | "updated_at"> &
