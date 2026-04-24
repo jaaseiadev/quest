@@ -128,7 +128,7 @@ export async function PATCH(request: NextRequest) {
 
     const job = normalizeRelation(application.jobs);
 
-    if (status === "accepted" && application.status !== "accepted") {
+    if (status === "accepted" && !usesJobSlot(application.status)) {
       const slotResult = await decrementJobSlot(application.job_id, job?.slots ?? 0);
 
       if (!slotResult.ok) {
@@ -144,7 +144,7 @@ export async function PATCH(request: NextRequest) {
       .maybeSingle();
 
     if (error) {
-      if (status === "accepted" && application.status !== "accepted") {
+      if (status === "accepted" && !usesJobSlot(application.status)) {
         await restoreJobSlot(application.job_id);
       }
 
@@ -219,4 +219,8 @@ async function restoreJobSlot(jobId: string) {
 
 function normalizeRelation<T>(value: T | T[] | null): T | null {
   return Array.isArray(value) ? (value[0] ?? null) : value;
+}
+
+function usesJobSlot(status: ApplicationStatus) {
+  return status === "accepted" || status === "in_progress" || status === "completed";
 }
