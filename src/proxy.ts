@@ -17,11 +17,11 @@ type RoleRelation = {
   name: RoleName;
 };
 
-type MiddlewareProfile = {
+type ProxyProfile = {
   roles: RoleRelation | RoleRelation[] | null;
 };
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let response = NextResponse.next({
     request,
   });
@@ -97,7 +97,7 @@ function redirectToLogin(request: NextRequest) {
   return NextResponse.redirect(redirectUrl);
 }
 
-function getRoleName(profile: MiddlewareProfile | null) {
+function getRoleName(profile: ProxyProfile | null) {
   if (!profile?.roles) {
     return null;
   }
@@ -115,7 +115,7 @@ async function currentUserIsAdmin(
     .from("profiles")
     .select("roles(name)")
     .eq("id", userId)
-    .returns<MiddlewareProfile[]>()
+    .returns<ProxyProfile[]>()
     .maybeSingle();
 
   if (error) {

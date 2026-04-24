@@ -6,6 +6,7 @@ import { CircleUserRound } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { STUDENT_NAV_ITEMS } from "@/types/ui";
+import { LogoutButton } from "@/components/auth/LogoutButton";
 import { Badge } from "@/components/ui/Badge";
 
 export type TopbarProps = {
@@ -29,8 +30,9 @@ export function Topbar({
           >
             Guild System
           </Link>
-          <div className="lg:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             <Badge variant="rank">{rankLabel}</Badge>
+            <LogoutButton />
           </div>
         </div>
 
@@ -61,6 +63,7 @@ export function Topbar({
             <CircleUserRound className="h-4 w-4 text-secondary" aria-hidden="true" />
             <span className="text-label-caps text-foreground">{displayName}</span>
           </div>
+          <LogoutButton />
         </div>
       </div>
     </header>
