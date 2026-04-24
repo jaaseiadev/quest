@@ -1,65 +1,87 @@
-import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight, ShieldCheck, Trophy } from "lucide-react";
+
+import { AppShell } from "@/components/shared/AppShell";
+import {
+  Badge,
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  PageHeader,
+  SegmentedProgress,
+  StatusChip,
+} from "@/components/ui";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <AppShell displayName="Cadet" rankLabel="Beginner">
+      <PageHeader
+        label="Student Command"
+        title="Apex Protocol foundation"
+        description="The MVP design layer is ready for dashboard, quest, party, and leaderboard screens."
+        actions={
+          <Button asChild>
+            <Link href="/dashboard">
+              Enter Console
+              <ArrowRight className="h-4 w-4" aria-hidden="true" />
+            </Link>
+          </Button>
+        }
+      />
+
+      <section className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+        <Card variant="interactive">
+          <CardHeader>
+            <div className="flex flex-wrap items-center gap-3">
+              <Badge variant="quest">Quest Board</Badge>
+              <StatusChip status="in_progress">Phase 1</StatusChip>
+            </div>
+            <CardTitle>Border-driven tactical surfaces</CardTitle>
+            <CardDescription>
+              Cards, buttons, badges, inputs, progress bars, and tables now share
+              the dark Apex Protocol vocabulary.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SegmentedProgress value={4} max={10} label="Foundation Progress" />
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Button variant="primary">Primary Action</Button>
+              <Button variant="secondary">Secondary Action</Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card variant="prestige">
+          <CardHeader>
+            <Badge variant="rank">Beginner</Badge>
+            <CardTitle>Rank treatment</CardTitle>
+            <CardDescription>
+              Gold is reserved for XP, ranks, and prestige moments.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-3 text-sm text-muted-foreground">
+              <div className="flex items-center justify-between border border-border bg-surface-container-low p-4">
+                <span className="flex items-center gap-2">
+                  <Trophy className="h-4 w-4 text-secondary" aria-hidden="true" />
+                  Current XP
+                </span>
+                <span className="font-display font-bold text-secondary">120</span>
+              </div>
+              <div className="flex items-center justify-between border border-border bg-surface-container-low p-4">
+                <span className="flex items-center gap-2">
+                  <ShieldCheck className="h-4 w-4 text-primary" aria-hidden="true" />
+                  Status
+                </span>
+                <StatusChip status="pending">Pending</StatusChip>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+    </AppShell>
   );
 }
