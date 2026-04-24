@@ -11,12 +11,40 @@ import {
 import { validateUpdateJobPayload } from "@/lib/api/job-validation";
 import { requireAdmin } from "@/lib/roles";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import type { AdminJobListItem } from "@/types/api";
 
 type RouteContext = {
   params: Promise<{
     id: string;
   }>;
 };
+
+type AdminJobRow = Omit<AdminJobListItem, "recommended_rank" | "creator"> & {
+  recommended_rank:
+    | AdminJobListItem["recommended_rank"]
+    | AdminJobListItem["recommended_rank"][];
+  creator: AdminJobListItem["creator"] | AdminJobListItem["creator"][];
+};
+
+const ADMIN_JOB_SELECT = `
+  id,
+  title,
+  description,
+  category,
+  company,
+  pay,
+  location,
+  slots,
+  reward_xp,
+  status,
+  deadline,
+  recommended_rank_id,
+  created_by,
+  created_at,
+  updated_at,
+  recommended_rank:ranks(id, name, min_xp, max_xp),
+  creator:profiles!jobs_created_by_fkey(id, display_name, email)
+`;
 
 export async function PUT(request: NextRequest, context: RouteContext) {
   try {
@@ -59,9 +87,8 @@ export async function PUT(request: NextRequest, context: RouteContext) {
       .from("jobs")
       .update(payload.data)
       .eq("id", id)
-      .select(
-        "id, title, description, category, company, pay, location, slots, reward_xp, status, deadline, recommended_rank_id, created_by, created_at, updated_at",
-      )
+      .select(ADMIN_JOB_SELECT)
+      .returns<AdminJobRow[]>()
       .maybeSingle();
 
     if (error) {
@@ -72,7 +99,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
       return routeError("NOT_FOUND", "Job was not found.");
     }
 
-    return successResponse(data, {
+    return successResponse(normalizeJobRow(data), {
       message: "Job updated.",
     });
   } catch (error) {
@@ -100,9 +127,8 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
       .from("jobs")
       .update({ status: "closed" })
       .eq("id", id)
-      .select(
-        "id, title, description, category, company, pay, location, slots, reward_xp, status, deadline, recommended_rank_id, created_by, created_at, updated_at",
-      )
+      .select(ADMIN_JOB_SELECT)
+      .returns<AdminJobRow[]>()
       .maybeSingle();
 
     if (error) {
@@ -113,7 +139,7 @@ export async function DELETE(request: NextRequest, context: RouteContext) {
       return routeError("NOT_FOUND", "Job was not found.");
     }
 
-    return successResponse(data, {
+    return successResponse(normalizeJobRow(data), {
       message: "Job closed.",
     });
   } catch (error) {
@@ -135,4 +161,16 @@ async function recommendedRankExists(rankId: number | null | undefined) {
     .maybeSingle();
 
   return !error && Boolean(data);
+}
+
+function normalizeJobRow(row: AdminJobRow): AdminJobListItem {
+  return {
+    ...row,
+    recommended_rank: normalizeRelation(row.recommended_rank),
+    creator: normalizeRelation(row.creator),
+  };
+}
+
+function normalizeRelation<T>(value: T | T[] | null): T | null {
+  return Array.isArray(value) ? (value[0] ?? null) : value;
 }
