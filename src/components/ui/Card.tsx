@@ -3,12 +3,12 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-const cardVariants = cva("border p-6 text-card-foreground", {
+const cardVariants = cva("min-w-0 border p-5 text-card-foreground md:p-6", {
   variants: {
     variant: {
       default: "border-border bg-card",
       interactive:
-        "border-border bg-card transition-colors duration-100 hover:border-secondary hover:bg-surface-container-high",
+        "border-border bg-card transition-colors duration-100 hover:border-secondary hover:bg-surface-container-high focus-within:border-secondary",
       danger: "border-danger bg-surface-dim text-danger",
       prestige: "border-secondary bg-surface-container text-card-foreground",
     },
@@ -38,7 +38,10 @@ export function CardTitle({
 }: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h3
-      className={cn("font-display text-xl font-semibold text-foreground", className)}
+      className={cn(
+        "break-words font-display text-xl font-semibold leading-tight text-foreground",
+        className,
+      )}
       {...props}
     />
   );

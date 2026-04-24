@@ -111,9 +111,9 @@ export function CreatePartyDialog({ ranks, onCreated }: CreatePartyDialogProps) 
 
       <dialog
         ref={dialogRef}
-        className="w-[min(92vw,640px)] border border-border bg-surface-dim p-0 text-foreground backdrop:bg-background/80"
+        className="max-h-[92dvh] w-[min(92vw,640px)] overflow-y-auto border border-border bg-surface-dim p-0 text-foreground backdrop:bg-background/80"
       >
-        <form className="space-y-6 p-6" onSubmit={handleSubmit}>
+        <form className="space-y-6 p-5 md:p-6" onSubmit={handleSubmit}>
           <div className="flex items-start justify-between gap-4 border-b border-border pb-5">
             <div>
               <p className="text-label-caps text-primary">Party Uplink</p>
@@ -147,7 +147,7 @@ export function CreatePartyDialog({ ranks, onCreated }: CreatePartyDialogProps) 
                 rows={4}
                 maxLength={280}
                 placeholder="Students focused on frontend quests."
-                className="w-full border border-border bg-input px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+                className="w-full min-w-0 border border-border bg-input px-4 py-3 text-foreground placeholder:text-muted-foreground transition-colors duration-100 focus:border-primary focus:outline-none"
                 onChange={(event) =>
                   setFormField("description", event.target.value, setForm)
                 }
@@ -171,7 +171,7 @@ export function CreatePartyDialog({ ranks, onCreated }: CreatePartyDialogProps) 
                 <select
                   id="party-min-rank"
                   value={form.minRankId}
-                  className="h-12 w-full border border-border bg-input px-4 text-foreground focus:border-primary focus:outline-none"
+                  className="h-12 w-full min-w-0 border border-border bg-input px-4 text-foreground transition-colors duration-100 focus:border-primary focus:outline-none"
                   onChange={(event) =>
                     setFormField("minRankId", event.target.value, setForm)
                   }

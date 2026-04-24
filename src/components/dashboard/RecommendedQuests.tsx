@@ -29,8 +29,8 @@ export function RecommendedQuests({ quests }: RecommendedQuestsProps) {
               <Badge variant="rank">{quest.recommendedRank.name}</Badge>
             ) : null}
           </div>
-          <div className="space-y-2">
-            <h3 className="font-display text-xl font-semibold text-foreground">
+          <div className="min-w-0 space-y-2">
+            <h3 className="break-words font-display text-xl font-semibold leading-tight text-foreground">
               {quest.title}
             </h3>
             <p className="text-sm text-muted-foreground">
@@ -50,7 +50,7 @@ export function RecommendedQuests({ quests }: RecommendedQuestsProps) {
               <span>/ {quest.slots} slots</span>
             </span>
           </div>
-          <div className="mt-auto flex items-center justify-between gap-4 border-t border-border pt-4">
+          <div className="mt-auto flex flex-col gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
             <span className="text-label-caps text-muted-foreground">
               {formatDate(quest.deadline)}
             </span>

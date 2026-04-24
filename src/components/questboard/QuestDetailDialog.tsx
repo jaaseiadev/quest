@@ -66,10 +66,10 @@ export function QuestDetailDialog({
         role="dialog"
         aria-modal="true"
         aria-labelledby="quest-detail-title"
-        className="max-h-[92vh] w-full overflow-y-auto border border-border-strong bg-surface-dim text-foreground md:mx-auto md:max-w-4xl"
+        className="max-h-[100dvh] w-full overflow-y-auto border border-border-strong bg-surface-dim text-foreground md:mx-auto md:max-h-[92vh] md:max-w-4xl"
       >
         <div className="flex items-start justify-between gap-4 border-b border-border p-5 md:p-6">
-          <div className="space-y-3">
+          <div className="min-w-0 space-y-3">
             <div className="flex flex-wrap gap-2">
               {job.category ? <Badge variant="quest">{job.category}</Badge> : null}
               {job.recommended_rank ? (
@@ -85,7 +85,7 @@ export function QuestDetailDialog({
               <p className="text-label-caps text-primary">Quest Intel</p>
               <h2
                 id="quest-detail-title"
-                className="mt-2 font-display text-3xl font-semibold text-foreground"
+                className="mt-2 break-words font-display text-2xl font-semibold leading-tight text-foreground md:text-3xl"
               >
                 {job.title}
               </h2>
@@ -197,12 +197,14 @@ function IntelStat({
           : "text-foreground";
 
   return (
-    <div className="border border-border bg-surface-container p-4">
+    <div className="min-w-0 border border-border bg-surface-container p-4">
       <p className="flex items-center gap-2 text-label-caps text-muted-foreground">
         <Icon className="h-4 w-4 text-primary" aria-hidden={true} />
         {label}
       </p>
-      <p className={`mt-2 font-display text-lg font-semibold ${toneClass}`}>{value}</p>
+      <p className={`mt-2 break-words font-display text-lg font-semibold ${toneClass}`}>
+        {value}
+      </p>
     </div>
   );
 }

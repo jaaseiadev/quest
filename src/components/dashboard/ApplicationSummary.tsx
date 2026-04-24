@@ -26,7 +26,10 @@ export function ApplicationSummary({ stats }: ApplicationSummaryProps) {
       </div>
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
         {STATUS_ORDER.map((status) => (
-          <div key={status} className="border border-border bg-surface-container-low p-4">
+          <div
+            key={status}
+            className="min-w-0 border border-border bg-surface-container-low p-4"
+          >
             <div className="flex items-center justify-between gap-3">
               <StatusChip status={status}>{APPLICATION_STATUS_META[status].label}</StatusChip>
               <span className="font-display text-2xl font-bold text-foreground">

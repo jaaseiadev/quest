@@ -59,7 +59,7 @@ export function JobApplicationsTable({
           key: "student",
           header: "Student",
           cell: (row) => (
-            <div>
+            <div className="min-w-0">
               <p className="font-semibold text-foreground">
                 {row.applicant.display_name || "Unnamed operative"}
               </p>
@@ -73,7 +73,7 @@ export function JobApplicationsTable({
           key: "quest",
           header: "Quest",
           cell: (row) => (
-            <div>
+            <div className="min-w-0">
               <p className="font-semibold text-foreground">{row.job.title}</p>
               <p className="mt-1 text-xs text-secondary">
                 {row.job.reward_xp} XP / {row.job.slots} slots
@@ -95,7 +95,7 @@ export function JobApplicationsTable({
           key: "actions",
           header: "Actions",
           cell: (row) => (
-            <div className="flex min-w-80 flex-wrap gap-2">
+            <div className="flex min-w-72 flex-wrap gap-2">
               {ACTIONS.map((action) => {
                 const Icon = action.icon;
 

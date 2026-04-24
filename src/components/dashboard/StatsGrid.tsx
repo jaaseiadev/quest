@@ -53,10 +53,10 @@ export function StatsGrid({ stats }: StatsGridProps) {
 
         return (
           <Card key={card.label} variant={card.prestige ? "prestige" : "default"}>
-            <div className="flex items-start justify-between gap-4">
-              <div className="space-y-4">
+            <div className="flex min-w-0 items-start justify-between gap-4">
+              <div className="min-w-0 space-y-4">
                 <p className="text-label-caps text-muted-foreground">{card.label}</p>
-                <p className="font-display text-3xl font-bold text-foreground">
+                <p className="break-words font-display text-2xl font-bold text-foreground md:text-3xl">
                   {card.value}
                 </p>
                 <p className="text-sm text-muted-foreground">{card.detail}</p>

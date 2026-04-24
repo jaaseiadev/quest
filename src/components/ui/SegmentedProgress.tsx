@@ -21,9 +21,9 @@ export function SegmentedProgress({
   const filledSegments = Math.round(percentage * safeSegments);
 
   return (
-    <div className={cn("space-y-3", className)}>
+    <div className={cn("min-w-0 space-y-3", className)}>
       {label ? (
-        <div className="flex items-center justify-between gap-4 text-label-caps">
+        <div className="flex flex-wrap items-center justify-between gap-2 text-label-caps">
           <span className="text-muted-foreground">{label}</span>
           <span className="text-secondary">
             {value} / {max} XP
@@ -45,7 +45,7 @@ export function SegmentedProgress({
             <div
               key={index}
               className={cn(
-                "h-2 border border-border",
+                "h-2.5 border border-border transition-colors duration-100",
                 active ? "border-secondary bg-secondary" : "bg-surface-container-high",
               )}
             />

@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const statusChipVariants = cva(
-  "clip-chamfer inline-flex items-center border px-3 py-1.5 font-display text-[11px] font-bold uppercase",
+  "clip-chamfer inline-flex max-w-full items-center whitespace-nowrap border px-3 py-1.5 font-display text-[11px] font-bold uppercase leading-none",
   {
     variants: {
       status: {

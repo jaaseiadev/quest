@@ -136,7 +136,7 @@ function LeaderboardStats({
   partyCount: number;
 }) {
   return (
-    <div className="grid min-w-72 grid-cols-3 border border-border bg-surface-container">
+    <div className="grid w-full grid-cols-3 border border-border bg-surface-container sm:w-auto sm:min-w-72">
       <Stat label="Ranked" value={entries.toString()} />
       <Stat label="Total XP" value={totalXp.toLocaleString()} />
       <Stat label="Parties" value={partyCount.toString()} />
@@ -151,7 +151,9 @@ function Stat({ label, value }: { label: string; value: string }) {
         <RadioTower className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
         <p className="text-label-caps text-muted-foreground">{label}</p>
       </div>
-      <p className="mt-2 font-display text-xl font-semibold text-secondary">{value}</p>
+      <p className="mt-2 break-words font-display text-lg font-semibold text-secondary md:text-xl">
+        {value}
+      </p>
     </div>
   );
 }

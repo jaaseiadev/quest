@@ -28,7 +28,7 @@ export function AdminJobsTable({
           key: "title",
           header: "Title",
           cell: (row) => (
-            <div>
+            <div className="min-w-0">
               <p className="font-semibold text-foreground">{row.title}</p>
               <p className="mt-1 text-xs text-muted-foreground">
                 {row.company || "No company"} / {row.location || "No location"}
