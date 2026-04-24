@@ -120,7 +120,7 @@ export function AdminApplicationsClient() {
                 status: json.data.status,
                 xp_awarded: json.data.xp_awarded,
                 job:
-                  status === "accepted" && item.status !== "accepted"
+                  status === "accepted" && !usesJobSlot(item.status)
                     ? { ...item.job, slots: Math.max(item.job.slots - 1, 0) }
                     : item.job,
               }
@@ -178,6 +178,10 @@ export function AdminApplicationsClient() {
       ) : null}
     </div>
   );
+}
+
+function usesJobSlot(status: ApplicationStatus) {
+  return status === "accepted" || status === "in_progress" || status === "completed";
 }
 
 function ApplicationFilter({
