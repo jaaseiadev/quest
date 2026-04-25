@@ -74,6 +74,8 @@ Use these names in local development and production:
 | `SUPABASE_SERVICE_ROLE_KEY` | Server only | Used by protected route handlers. Never expose to browser code. |
 | `ADMIN_INVITE_CODE` | Server only | Used by the admin invite endpoint. Use a different value in production. |
 
+If a newly registered local test user cannot log in, check Supabase Dashboard > Authentication > Providers > Email. Either confirm the test user in the Supabase users table or disable email confirmation for local development. Do not disable confirmation blindly for production.
+
 ## Deployment
 
 Vercel is the recommended deployment target.

@@ -1,6 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
+import {
+  getSupabasePublicKey,
+  getSupabasePublicUrl,
+} from "@/lib/supabase/config";
 import type { Database, RoleName } from "@/types/db";
 
 const AUTH_PATHS = ["/auth/login", "/auth/sign-up", "/auth/forgot-password"];
@@ -27,8 +31,8 @@ export async function proxy(request: NextRequest) {
   });
 
   const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_OR_ANON_KEY!,
+    getSupabasePublicUrl(),
+    getSupabasePublicKey(),
     {
       cookies: {
         getAll() {
@@ -56,18 +60,24 @@ export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (!user && isProtectedPath(pathname)) {
-    return redirectToLogin(request);
+    return redirectToLogin(request, response);
   }
 
   if (user && isAuthPath(pathname)) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+    return redirectWithSupabaseCookies(
+      new URL("/dashboard", request.url),
+      response,
+    );
   }
 
   if (user && isAdminPath(pathname)) {
     const isAdmin = await currentUserIsAdmin(supabase, user.id);
 
     if (!isAdmin) {
-      return NextResponse.redirect(new URL("/dashboard", request.url));
+      return redirectWithSupabaseCookies(
+        new URL("/dashboard", request.url),
+        response,
+      );
     }
   }
 
@@ -88,13 +98,23 @@ function isAuthPath(pathname: string) {
   return AUTH_PATHS.some((path) => pathname === path);
 }
 
-function redirectToLogin(request: NextRequest) {
+function redirectToLogin(request: NextRequest, response: NextResponse) {
   const redirectUrl = new URL("/auth/login", request.url);
   const nextPath = `${request.nextUrl.pathname}${request.nextUrl.search}`;
 
   redirectUrl.searchParams.set("next", nextPath);
 
-  return NextResponse.redirect(redirectUrl);
+  return redirectWithSupabaseCookies(redirectUrl, response);
+}
+
+function redirectWithSupabaseCookies(url: URL, response: NextResponse) {
+  const redirectResponse = NextResponse.redirect(url);
+
+  response.cookies.getAll().forEach(({ name, value, ...options }) => {
+    redirectResponse.cookies.set(name, value, options);
+  });
+
+  return redirectResponse;
 }
 
 function getRoleName(profile: ProxyProfile | null) {

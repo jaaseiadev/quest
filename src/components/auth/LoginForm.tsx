@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
+import type { AuthError } from "@supabase/supabase-js";
 import { ArrowRight, KeyRound } from "lucide-react";
 
 import { Button, Input, Label } from "@/components/ui";
@@ -43,7 +44,7 @@ export function LoginForm({
     setIsSubmitting(true);
 
     const supabase = createSupabaseBrowserClient();
-    const { error: signInError } = await supabase.auth.signInWithPassword({
+    const { data, error: signInError } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -51,11 +52,19 @@ export function LoginForm({
     setIsSubmitting(false);
 
     if (signInError) {
-      setError(signInError.message);
+      logAuthError(signInError);
+      setError(getLoginErrorMessage(signInError));
       return;
     }
 
-    router.push(resolvedNextPath);
+    if (!data.session) {
+      setError(
+        "Login did not return a browser session. Check Supabase email confirmation and project settings.",
+      );
+      return;
+    }
+
+    router.replace(resolvedNextPath);
     router.refresh();
   }
 
@@ -159,4 +168,38 @@ export function LoginForm({
       </p>
     </form>
   );
+}
+
+function getLoginErrorMessage(error: AuthError) {
+  const message = error.message.toLowerCase();
+
+  if (error.code === "email_not_confirmed" || message.includes("email not confirmed")) {
+    return "Email is not confirmed. Confirm the user in Supabase or disable email confirmations for local development.";
+  }
+
+  if (
+    error.code === "invalid_credentials" ||
+    message.includes("invalid login credentials")
+  ) {
+    return "Invalid email or password.";
+  }
+
+  if (message.includes("fetch") || message.includes("failed to fetch")) {
+    return "Authentication service is unreachable. Check the Supabase URL and public key.";
+  }
+
+  return error.message;
+}
+
+function logAuthError(error: AuthError) {
+  if (process.env.NODE_ENV === "production") {
+    return;
+  }
+
+  console.warn("[auth] Supabase login failed", {
+    code: error.code,
+    status: error.status,
+    name: error.name,
+    message: error.message,
+  });
 }
