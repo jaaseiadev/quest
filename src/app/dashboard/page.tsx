@@ -15,15 +15,20 @@ import {
 } from "@/components/dashboard";
 import { AppShell } from "@/components/shared";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import type { ApplicationStatus } from "@/types/db";
+import type { ApplicationStatus, RoleName } from "@/types/db";
 
 export const dynamic = "force-dynamic";
+
+type RoleRelation = {
+  name: RoleName;
+};
 
 type ProfileRow = {
   id: string;
   email: string | null;
   display_name: string | null;
   avatar_url: string | null;
+  roles: RoleRelation | RoleRelation[] | null;
 };
 
 type UserStatsRow = {
@@ -87,7 +92,7 @@ export default async function DashboardPage() {
     await Promise.all([
       supabase
         .from("profiles")
-        .select("id, email, display_name, avatar_url")
+        .select("id, email, display_name, avatar_url, roles(name)")
         .eq("id", user.id)
         .returns<ProfileRow[]>()
         .maybeSingle(),
@@ -166,7 +171,11 @@ export default async function DashboardPage() {
   );
 
   return (
-    <AppShell displayName={displayName} rankLabel={currentRank.name}>
+    <AppShell
+      displayName={displayName}
+      rankLabel={currentRank.name}
+      isAdmin={getRoleName(profile) === "admin"}
+    >
       <div className="space-y-8">
         <WelcomeSection displayName={displayName} rankLabel={currentRank.name} />
         <DashboardErrorBanner messages={errors} />
@@ -345,4 +354,8 @@ function findRankForXp(ranks: DashboardRank[], xp: number) {
 
 function getDisplayName(profile: ProfileRow | null, email?: string) {
   return profile?.display_name?.trim() || email?.split("@")[0] || "Operative";
+}
+
+function getRoleName(profile: ProfileRow | null) {
+  return normalizeRelation(profile?.roles)?.name ?? null;
 }

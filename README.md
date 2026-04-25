@@ -76,6 +76,25 @@ Use these names in local development and production:
 
 If a newly registered local test user cannot log in, check Supabase Dashboard > Authentication > Providers > Email. Either confirm the test user in the Supabase users table or disable email confirmation for local development. Do not disable confirmation blindly for production.
 
+## Local Admin Access Testing
+
+Admin access uses the invite-code promotion flow. The invite code is validated only by the server route `POST /api/admin/invite` and must never be exposed in client code.
+
+1. Add a local test code to `.env.local`:
+
+```env
+ADMIN_INVITE_CODE=your-local-test-code
+```
+
+2. Restart `npm run dev` after changing `.env.local`.
+3. Log in as a normal student test account.
+4. Open `http://localhost:3000/admin-invite`.
+5. Submit the invite code. A successful response promotes the current user's `profiles.role_id` to the `admin` role and redirects to `/admin`.
+6. Confirm the Admin link appears in the app navigation for that account.
+7. Log in as another normal student and confirm `/admin` redirects away while `/admin-invite` remains available for authenticated promotion testing.
+
+The `/admin` route and all `/api/admin/*` management routes still require server-side admin role checks. Only use a controlled local invite code for development and class demos.
+
 ## Deployment
 
 Vercel is the recommended deployment target.

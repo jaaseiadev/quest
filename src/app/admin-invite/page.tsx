@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { LeaderboardClient } from "@/components/leaderboard";
+import { AdminInviteClient } from "@/components/admin";
 import { AppShell } from "@/components/shared";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { Rank, RoleName } from "@/types/db";
@@ -34,7 +34,7 @@ const BEGINNER_RANK = {
   max_xp: 149,
 };
 
-export default async function LeaderboardPage() {
+export default async function AdminInvitePage() {
   const supabase = await createSupabaseServerClient();
   const {
     data: { user },
@@ -69,15 +69,16 @@ export default async function LeaderboardPage() {
     normalizeRelation(statsResult.data?.current_rank) ??
     findRankForXp(ranks, statsResult.data?.xp ?? 0) ??
     BEGINNER_RANK;
-  const displayName = getDisplayName(profileResult.data, user.email);
+  const profile = profileResult.data;
+  const displayName = getDisplayName(profile, user.email);
 
   return (
     <AppShell
       displayName={displayName}
       rankLabel={currentRank.name}
-      isAdmin={getRoleName(profileResult.data) === "admin"}
+      isAdmin={getRoleName(profile) === "admin"}
     >
-      <LeaderboardClient />
+      <AdminInviteClient />
     </AppShell>
   );
 }

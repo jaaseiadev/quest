@@ -3,15 +3,20 @@ import { redirect } from "next/navigation";
 import { QuestBoardClient, type QuestApplicationState } from "@/components/questboard";
 import { AppShell } from "@/components/shared";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
-import type { ApplicationStatus, Rank } from "@/types/db";
+import type { ApplicationStatus, Rank, RoleName } from "@/types/db";
 
 export const dynamic = "force-dynamic";
+
+type RoleRelation = {
+  name: RoleName;
+};
 
 type ProfileRow = {
   id: string;
   email: string | null;
   display_name: string | null;
   avatar_url: string | null;
+  roles: RoleRelation | RoleRelation[] | null;
 };
 
 type UserStatsRow = {
@@ -46,7 +51,7 @@ export default async function QuestBoardPage() {
     await Promise.all([
       supabase
         .from("profiles")
-        .select("id, email, display_name, avatar_url")
+        .select("id, email, display_name, avatar_url, roles(name)")
         .eq("id", user.id)
         .returns<ProfileRow[]>()
         .maybeSingle(),
@@ -83,7 +88,11 @@ export default async function QuestBoardPage() {
   const displayName = getDisplayName(profileResult.data, user.email);
 
   return (
-    <AppShell displayName={displayName} rankLabel={currentRank.name}>
+    <AppShell
+      displayName={displayName}
+      rankLabel={currentRank.name}
+      isAdmin={getRoleName(profileResult.data) === "admin"}
+    >
       <QuestBoardClient ranks={ranks} initialApplications={applications} />
     </AppShell>
   );
@@ -111,3 +120,6 @@ function getDisplayName(profile: ProfileRow | null, email?: string) {
   return profile?.display_name?.trim() || email?.split("@")[0] || "Operative";
 }
 
+function getRoleName(profile: ProfileRow | null) {
+  return normalizeRelation(profile?.roles)?.name ?? null;
+}

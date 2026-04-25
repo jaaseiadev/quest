@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { CircleUserRound } from "lucide-react";
+import { CircleUserRound, Shield } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { STUDENT_NAV_ITEMS } from "@/types/ui";
@@ -12,11 +12,13 @@ import { Badge } from "@/components/ui/Badge";
 export type TopbarProps = {
   displayName?: string;
   rankLabel?: string;
+  isAdmin?: boolean;
 };
 
 export function Topbar({
   displayName = "Operative",
   rankLabel = "Beginner",
+  isAdmin = false,
 }: TopbarProps) {
   const pathname = usePathname();
 
@@ -58,6 +60,20 @@ export function Topbar({
               </Link>
             );
           })}
+          {isAdmin ? (
+            <Link
+              href="/admin"
+              className={cn(
+                "flex items-center justify-center gap-2 border border-transparent px-3 py-2 text-center font-display text-xs font-bold uppercase text-muted-foreground transition-colors duration-100 hover:border-border hover:text-foreground",
+                pathname === "/admin" || pathname.startsWith("/admin/")
+                  ? "border-primary bg-primary/10 text-primary-soft hover:border-primary hover:text-primary-soft"
+                  : "border-secondary/50 text-secondary hover:border-secondary hover:text-secondary",
+              )}
+            >
+              <Shield className="h-4 w-4" aria-hidden="true" />
+              Admin
+            </Link>
+          ) : null}
         </nav>
 
         <div className="hidden items-center gap-3 lg:flex">

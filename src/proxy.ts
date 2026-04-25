@@ -13,6 +13,7 @@ const PROTECTED_PATHS = [
   "/questboard",
   "/party-management",
   "/leaderboard",
+  "/admin-invite",
   "/admin",
 ];
 const ADMIN_PATH = "/admin";

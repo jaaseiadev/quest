@@ -1,13 +1,23 @@
 "use client";
 
 import { type FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
 import { KeyRound } from "lucide-react";
 
 import { Button, Card, Input, Label, PageHeader } from "@/components/ui";
-import type { ApiResponse } from "@/types/api";
-import type { Profile } from "@/types/db";
+
+type AdminInviteResponse =
+  | {
+      success: true;
+      message: string;
+    }
+  | {
+      success: false;
+      error: string;
+    };
 
 export function AdminInviteClient() {
+  const router = useRouter();
   const [inviteCode, setInviteCode] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [feedback, setFeedback] = useState<{
@@ -28,19 +38,19 @@ export function AdminInviteClient() {
         },
         body: JSON.stringify({ inviteCode }),
       });
-      const json = (await response.json()) as ApiResponse<
-        Pick<Profile, "id" | "email" | "display_name" | "avatar_url" | "role_id">
-      >;
+      const json = (await response.json()) as AdminInviteResponse;
 
-      if (!json.ok) {
-        throw new Error(json.error.message);
+      if (!json.success) {
+        throw new Error(json.error);
       }
 
       setInviteCode("");
       setFeedback({
         tone: "success",
-        message: json.message ?? "Admin access granted.",
+        message: json.message,
       });
+      router.push("/admin");
+      router.refresh();
     } catch (error) {
       setFeedback({
         tone: "danger",
@@ -56,7 +66,7 @@ export function AdminInviteClient() {
       <PageHeader
         label="Admin / Invite"
         title="Invite Code Verification"
-        description="Submit the configured server-side admin invite code without exposing it to the client."
+        description="Submit the configured server-side admin invite code, then continue to the admin command center."
       />
 
       <Card className="max-w-2xl">
