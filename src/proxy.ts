@@ -60,6 +60,13 @@ export async function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
+  if (pathname === "/admin/invite") {
+    return redirectWithSupabaseCookies(
+      new URL("/admin-invite", request.url),
+      response,
+    );
+  }
+
   if (!user && isProtectedPath(pathname)) {
     return redirectToLogin(request, response);
   }
