@@ -8,6 +8,7 @@ import {
 import type { Database, RoleName } from "@/types/db";
 
 const AUTH_PATHS = ["/auth/login", "/auth/sign-up", "/auth/forgot-password"];
+const PUBLIC_ONLY_PATHS = ["/"];
 const PROTECTED_PATHS = [
   "/dashboard",
   "/questboard",
@@ -71,6 +72,13 @@ export async function proxy(request: NextRequest) {
     return redirectToLogin(request, response);
   }
 
+  if (user && isPublicOnlyPath(pathname)) {
+    return redirectWithSupabaseCookies(
+      new URL("/dashboard", request.url),
+      response,
+    );
+  }
+
   if (user && isAuthPath(pathname)) {
     return redirectWithSupabaseCookies(
       new URL("/dashboard", request.url),
@@ -104,6 +112,10 @@ function isAdminPath(pathname: string) {
 
 function isAuthPath(pathname: string) {
   return AUTH_PATHS.some((path) => pathname === path);
+}
+
+function isPublicOnlyPath(pathname: string) {
+  return PUBLIC_ONLY_PATHS.some((path) => pathname === path);
 }
 
 function redirectToLogin(request: NextRequest, response: NextResponse) {
